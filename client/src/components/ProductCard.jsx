@@ -102,7 +102,7 @@ const ProductCard = ({ product, loading }) => {
               hasArrow
               label={
                 !cartPlusDisabled
-                  ? "You reached the maximum quantity jof the product. "
+                  ? "You reached the maximum quantity of the product. "
                   : product.stock <= 0
                     ? "Out of stock"
                     : ""

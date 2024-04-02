@@ -10,8 +10,6 @@ import CartScreen from "./screens/CartScreen";
 import Footer from "./components/Footer";
 import LoginScreen from "./screens/LoginScreen";
 import EmailVerificationScreen from "./screens/EmailVerificationScreen";
-import PasswordResetScreen from "./screens/PasswordResetScreen";
-import RegistrationScreen from "./screens/RegistrationScreen";
 import axios from "axios";
 import { VStack, Spinner } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
@@ -57,10 +55,10 @@ function App() {
                   <Route path='/' element={<LandingScreen />} />
                   <Route path='/product/:id' element={<ProductScreen />} />
                   <Route path='/cart' element={<CartScreen />} />
-                  <Route path='/login' element={<LoginScreen />} />
-                  <Route path='/registration' element={<RegistrationScreen />} />
+                  <Route path='/admin-login' element={<LoginScreen />} />
+      
                   <Route path='/email-verify/:token' element={<EmailVerificationScreen />} />
-                  <Route path='/password-reset/:token' element={<PasswordResetScreen />} />
+             
                   <Route path='/checkout' element={<CheckoutScreen />} />
                   <Route path='/cancel' element={<CancelScreen />} />
                   <Route path='/order-history' element={<YourOrdersScreen />} />

@@ -19,9 +19,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as ReactLink, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import PasswordField from "../components/PasswordField";
-import PasswordForgottenForm from "../components/PasswordForgottenForm";
-import TextField from "../components/TextField";
 import { login, googleLogin } from "../redux/actions/userActions";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
@@ -83,20 +80,8 @@ const LoginScreen = () => {
             <Stack spacing='6'>
               <Stack spacing={{ base: "2", md: "3" }} textAlign='center'>
                 <Heading sx={{ fontSize: "36px" }} fontSize={{ base: "md", lg: "xl" }}>
-                  Log in to your account
+                  Admin Login
                 </Heading>
-                <HStack spacing='1' justify='center'>
-                  <Text>Don't have an account?</Text>
-                  <Button
-                    sx={{ color: "cyan", fontWeight: "1000" }}
-                    as={ReactLink}
-                    to='/registration'
-                    variant='link'
-                    colorScheme='cyan'
-                  >
-                    Sign up
-                  </Button>
-                </HStack>
               </Stack>
             </Stack>
             <Box
@@ -120,27 +105,8 @@ const LoginScreen = () => {
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
                 )}
-                <Stack spacing='5'>
-                  <FormControl>
-                    <TextField type='text' name='email' placeholder='you@example.com' label='Email' />
-                    <PasswordField type='password' name='password' placeholder='your password' label='Password' />
-
-                    <Button
-                      my='2'
-                      onClick={() => setShowPasswordReset(!showPasswordReset)}
-                      size='sm'
-                      colorScheme='cyan'
-                      variant='outline'
-                    >
-                      Forgot Password ?
-                    </Button>
-                    {showPasswordReset && <PasswordForgottenForm />}
-                  </FormControl>
-                </Stack>
+                <Stack spacing='5'></Stack>
                 <Stack spacing='6'>
-                  <Button colorScheme='cyan' size='lg' fontSize='md' isLoading={loading} type='submit'>
-                    Sign in
-                  </Button>
                   <Button
                     leftIcon={<FcGoogle />}
                     colorScheme='cyan'

@@ -185,18 +185,7 @@ const Header = () => {
                 </MenuList>
               </Menu>
             ) : (
-              <Menu>
-                <MenuButton as={IconButton} variant='ghost' cursor='pointer' icon={<BiLogInCircle size='25px' />} />
-                <MenuList>
-                  <MenuItem as={ReactLink} to='/login' p='2' fontWeight='400' variant='link'>
-                    Sign in
-                  </MenuItem>
-                  <MenuDivider />
-                  <MenuItem as={ReactLink} to='/registration' p='2' fontWeight='400' variant='link'>
-                    Sign up
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+              <></>
             )}
           </Flex>
         </Flex>

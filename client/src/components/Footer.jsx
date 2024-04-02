@@ -31,7 +31,7 @@ const Footer = () => (
               Debbie's store
             </Text>
           </Flex>
-          <Text color='muted'>We love tshsirts.</Text>
+          <Text color='muted'>We love t-shirts!</Text>
         </Stack>
         <Stack direction={{ base: "column-reverse", md: "column", lg: "row" }} spacing={{ base: "12", md: "8" }}>
           <Stack direction='row' spacing='8'>
