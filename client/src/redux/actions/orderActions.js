@@ -12,8 +12,6 @@ export const setPayment = () => async (dispatch, getState) => {
 		user: { userInfo },
 	} = getState();
 
-	console.log(shippingAddress);
-
 	const newOrder = { subtotal, shipping, shippingAddress, cartItems, userInfo };
 
 	try {

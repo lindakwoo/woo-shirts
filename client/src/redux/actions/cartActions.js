@@ -1,10 +1,9 @@
 import axios from "axios";
 import { setError, setLoading, setShippingCosts, cartItemAdd, cartItemRemoval, clearCart } from "../slices/cart";
 
-export const addCartItem = (id, qty) => async (dispatch) => {
+export const addCartItem = (id, qty, size) => async (dispatch) => {
   try {
     const { data } = await axios.get(`/api/products/${id}`);
-console.log(data)
     const itemToAdd = {
       id: data._id,
       name: data.name,
@@ -13,6 +12,7 @@ console.log(data)
       price: data.price,
       stock: data.stock,
       brand: data.brand,
+      size,
       qty,
       stripeId: data.stripeId,
     };

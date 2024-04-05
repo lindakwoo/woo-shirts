@@ -10,7 +10,7 @@ dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const stripeRoute = express.Router();
-const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://debbie-elye.onrender.com/`;
+const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://woo-shirts.onrender.com/`;
 
 const stripePayment = async (req, res) => {
   const data = req.body;
@@ -58,7 +58,11 @@ const stripePayment = async (req, res) => {
 
   data.cartItems.forEach(async (cartItem) => {
     let product = await Product.findById(cartItem.id);
+    console.log('old!!!!!!!!!!!!!!!!!!!!!',product)
     product.stock = product.stock - cartItem.qty;
+    console.log('old numbe!!!!!!!!!!!!!!!!!!!',product.sizes[cartItem.size])
+    product.sizes[cartItem.size] = product.sizes[cartItem.size] - cartItem.qty
+    console.log('new product!!!!!!!!!!!!!!!!!!!!!!!!!',product)
     product.save();
   });
 

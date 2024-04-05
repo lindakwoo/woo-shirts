@@ -28,6 +28,7 @@ import { getAllOrders, deleteOrder, setDelivered, resetErrorAndRemoval } from ".
 import ConfirmRemovalAlert from "./ConfirmRemovalAlert";
 import { IoMdAlert } from "react-icons/io";
 
+
 const OrdersTab = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
@@ -91,6 +92,7 @@ const OrdersTab = () => {
                   <Th>Email</Th>
                   <Th>Shipping Info</Th>
                   <Th>Items Ordered</Th>
+
                   <Th>Shipping Price</Th>
                   <Th>Total</Th>
                   <Th>Delivered</Th>
@@ -116,11 +118,15 @@ const OrdersTab = () => {
                       </Td>
                       <Td>
                         {order.orderItems.map((item) => (
-                          <Text key={item._id}>
-                            {item.qty} x {item.name}
-                          </Text>
+                          <>
+                            <Text key={item._id}>
+                              {item.qty} x {item.name}
+                            </Text>
+                            <Text key={item._id}>size: {item.size}</Text>
+                          </>
                         ))}
                       </Td>
+
                       <Td>${order.shippingPrice}</Td>
                       <Td>${order.totalPrice}</Td>
                       <Td>{order.isDelivered ? <CheckCircleIcon /> : "Pending"}</Td>

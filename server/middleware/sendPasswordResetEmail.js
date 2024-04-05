@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 
 export const sendPasswordResetEmail = (token, email, name) => {
-	const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://debbie-elye.onrender.com/`;
+	const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://woo-shirts.onrender.com/`;
 	const html = `
     <html>
         <body>

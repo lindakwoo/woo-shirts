@@ -19,6 +19,7 @@ import {
   Textarea,
   Input,
   Tooltip,
+  useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { BiCheckShield, BiPackage, BiSupport } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,37 +27,32 @@ import { useParams } from "react-router-dom";
 import { getProduct } from "../redux/actions/productActions";
 import { useEffect, useState } from "react";
 import { addCartItem } from "../redux/actions/cartActions";
-import Star from "../components/Star";
-import { createProductReview } from "../redux/actions/productActions";
 import { IoMdAlert } from "react-icons/io";
+
+const sizes = {
+  "x-small": "xs",
+  small: "s",
+  medium: "m",
+  large: "l",
+  "x-large": "xl",
+};
 
 const ProductScreen = () => {
   const [amount, setAmount] = useState(1);
+  const [size, setSize] = useState("x-small");
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { loading, error, product, reviewed } = useSelector((state) => state.product);
+  const { loading, error, product } = useSelector((state) => state.product);
   const { cartItems } = useSelector((state) => state.cart);
   const toast = useToast();
-  const [comment, setComment] = useState("");
-  const [rating, setRating] = useState(1);
-  const [title, setTitle] = useState("");
-  const [reviewBoxOpen, setReviewBoxOpen] = useState(false);
-  const { userInfo } = useSelector((state) => state.user);
-  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const hasSize = (size) => {
+    return product.sizes[size] > 0;
+  };
 
   useEffect(() => {
     dispatch(getProduct(id));
-    setReviewBoxOpen(false);
-
-    if (reviewed) {
-      toast({
-        description: "Product review saved.",
-        status: "success",
-        isClosable: "true",
-      });
-      setReviewBoxOpen(false);
-    }
-  }, [dispatch, id, toast, reviewed]);
+  }, [dispatch, id]);
 
   const changeAmount = (input) => {
     if (input === "plus") {
@@ -69,22 +65,16 @@ const ProductScreen = () => {
 
   const addItem = () => {
     if (cartItems.some((cartItem) => cartItem.id === id)) {
-      cartItems.find((cartItem) => cartItem.id === id);
-      dispatch(addCartItem(id, amount));
+      const existingItem = cartItems.find((cartItem) => cartItem.id === id);
+      dispatch(addCartItem(id, amount + Number(existingItem.qty, sizes[size])));
     } else {
-      dispatch(addCartItem(id, amount));
+      dispatch(addCartItem(id, amount, sizes[size]));
     }
     toast({
       description: "Item has been added.",
       status: "success",
       isClosable: true,
     });
-  };
-
-  const hasUserReviewed = () => product.reviews.some((item) => item.user === userInfo._id);
-  const onSubmit = () => {
-    setButtonLoading(true);
-    dispatch(createProductReview(product._id, userInfo._id, comment, rating, title));
   };
 
   return (
@@ -125,31 +115,39 @@ const ProductScreen = () => {
                 <Stack spacing='5'>
                   <Box>
                     <Text fontSize='xl'>${product.price}</Text>
-                    {/* <Flex>
-                      <HStack spacing='2px'>
-                        <Star color='cyan.500' />
-                        <Star rating={product.rating} star={2} />
-                        <Star rating={product.rating} star={3} />
-                        <Star rating={product.rating} star={4} />
-                        <Star rating={product.rating} star={5} />
-                      </HStack>
-                      <Text fontSize='md' fontWeight='bold' ml='4px'>
-                        {product.numberOfReviews} Reviews
-                      </Text>
-                    </Flex> */}
                   </Box>
                   <Text>{product.subtitle}</Text>
                   <Text>{product.description}</Text>
-                  <Text fontWeight='bold'>Quantity</Text>
-                  <Flex w='170px' p='5px' border='1px' borderColor='gray.200' alignItems='center'>
-                    <Button isDisabled={amount <= 1} onClick={() => changeAmount("minus")}>
-                      <MinusIcon />
-                    </Button>
-                    <Text mx='30px'>{amount}</Text>
-                    <Button isDisabled={amount >= product.stock} onClick={() => changeAmount("plus")}>
-                      <SmallAddIcon />
-                    </Button>
-                  </Flex>
+                  <HStack spacing='8' alignItems='center'>
+                    <Text fontWeight='bold'>Size</Text>
+                    <Flex w='170px' p='5px' border='1px' borderColor='gray.200' alignItems='center'>
+                      <select
+                        maxW='68px'
+                        focusBorderColor={mode("cyan.500", "cyan.200")}
+                        value={size}
+                        onChange={(e) => {
+                          setSize(e.target.value);
+                        }}
+                      >
+                        <option disabled={!hasSize("xs")}>x-small</option>
+                        <option disabled={!hasSize("s")}>small</option>
+                        <option disabled={!hasSize("m")}>medium</option>
+                        <option disabled={!hasSize("l")}>large</option>
+                        <option disabled={!hasSize("xl")}>x-large</option>
+                      </select>
+                    </Flex>
+                    <Text fontWeight='bold'>Quantity</Text>
+                    <Flex w='170px' p='5px' border='1px' borderColor='gray.200' alignItems='center'>
+                      <Button isDisabled={amount <= 1} onClick={() => changeAmount("minus")}>
+                        <MinusIcon />
+                      </Button>
+                      <Text mx='30px'>{amount}</Text>
+                      <Button isDisabled={amount >= product.stock} onClick={() => changeAmount("plus")}>
+                        <SmallAddIcon />
+                      </Button>
+                    </Flex>
+                  </HStack>
+
                   <Badge fontSize='lg' width='170px' textAlign='center' colorScheme='gray'>
                     In Stock: {product.stock}
                   </Badge>
@@ -198,91 +196,6 @@ const ProductScreen = () => {
                 />
               </Flex>
             </Stack>
-
-            {/* {userInfo && (
-              <>
-                <Tooltip label={hasUserReviewed() && "you have already reviewed this product."} fontSize='medium'>
-                  <Button
-                    isDisabled={hasUserReviewed()}
-                    my='20px'
-                    w='140px'
-                    colorScheme='cyan'
-                    onClick={() => setReviewBoxOpen(!reviewBoxOpen)}
-                  >
-                    Write a review
-                  </Button>
-                </Tooltip>
-                {reviewBoxOpen && (
-                  <Stack mb='20px'>
-                    <Wrap>
-                      <HStack spacing='2px'>
-                        <Button variant='outline' onClick={() => setRating(1)}>
-                          <Star />
-                        </Button>
-                        <Button variant='outline' onClick={() => setRating(2)}>
-                          <Star rating={rating} star={2} />
-                        </Button>
-                        <Button variant='outline' onClick={() => setRating(3)}>
-                          <Star rating={rating} star={3} />
-                        </Button>
-                        <Button variant='outline' onClick={() => setRating(4)}>
-                          <Star rating={rating} star={4} />
-                        </Button>
-                        <Button variant='outline' onClick={() => setRating(5)}>
-                          <Star rating={rating} star={5} />
-                        </Button>
-                      </HStack>
-                    </Wrap>
-                    <Input
-                      onChange={(e) => {
-                        setTitle(e.target.value);
-                      }}
-                      placeholder='Review title (optional)'
-                    />
-                    <textarea
-                      onChange={(e) => {
-                        setComment(e.target.value);
-                      }}
-                      placeholder={`The ${product.brand} ${product.name} is...`}
-                    />
-                    <Button
-                      isLoading={buttonLoading}
-                      loadingText='Saving'
-                      w='140px'
-                      colorScheme='cyan'
-                      onClick={() => onSubmit()}
-                    >
-                      Publish review
-                    </Button>
-                  </Stack>
-                )}
-              </>
-            )} */}
-            {/* <Stack>
-              <Text fontSize='xl' fontWeight='bold'>
-                Reviews
-              </Text>
-              <SimpleGrid minChildWidth='300px' spacingX='40px' spacingY='20px'>
-                {product.reviews.map((review) => (
-                  <Box key={review._id}>
-                    <Flex spcaing='2px' alignItems='center'>
-                      <Star color='cyan.500' />
-                      <Star rating={product.rating} star={2} />
-                      <Star rating={product.rating} star={3} />
-                      <Star rating={product.rating} star={4} />
-                      <Star rating={product.rating} star={5} />
-                      <Text fontWeight='semibold' ml='4px'>
-                        {review.title && review.title}
-                      </Text>
-                    </Flex>
-                    <Box py='12px'>{review.comment}</Box>
-                    <Text fontSize='sm' color='gray.400'>
-                      by {review.name}, {new Date(review.createdAt).toDateString()}
-                    </Text>
-                  </Box>
-                ))}
-              </SimpleGrid>
-            </Stack> */}
           </Box>
         )
       )}
