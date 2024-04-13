@@ -23,16 +23,28 @@ const ProductCard = ({ product, loading }) => {
           overflow='hidden'
           p='4'
           shadow='md'
+          sx={{
+            borderRadius: "10px",
+            // backgroundImage: `url("${product.images[0]}")`,
+            // backgroundRepeat: "no-repeat",
+            // backgroundSize: "cover",
+            backgroundColor: "pink",
+            height: "400px",
+            width: "250px",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
           <Image
+            sx={{ height: "auto", width: "100%" }}
             onMouseEnter={() => setIsShown(true)}
             onMouseLeave={() => setIsShown(false)}
             src={product.images[isShown && product.images.length === 2 ? 1 : 0]}
             fallbackSrc='https://via.placeholder.com/150'
             alt={product.name}
-            height='200px'
+            // height='200px'
           />
-          {product.stock < 5 ? (
+          {/* {product.stock < 5 ? (
             <Badge colorScheme='yellow'>only {product.stock} left</Badge>
           ) : product.stock < 1 ? (
             <Badge colorScheme='red'>Sold out</Badge>
@@ -55,7 +67,7 @@ const ProductCard = ({ product, loading }) => {
             <Text fontSize='xl' fontWeight='semibold' color='cyan.600'>
               ${product.price}
             </Text>
-          </Flex>
+          </Flex> */}
         </Box>
       </ReactLink>
     </Skeleton>

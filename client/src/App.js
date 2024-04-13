@@ -19,6 +19,7 @@ import CancelScreen from "./screens/CancelScreen";
 import YourOrdersScreen from "./screens/YourOrdersScreen";
 import SuccessScreen from "./screens/SuccessScreen";
 import AdminConsoleScreen from "./screens/AdminConsoleScreen";
+import NewProducsScreen from "./screens/NewProducsScreen";
 
 function App() {
   const theme2 = extendTheme({
@@ -51,7 +52,8 @@ function App() {
               <Header />
               <main>
                 <Routes>
-                  <Route path='/products' element={<ProductsScreen />} />
+                    <Route path='/products' element={<ProductsScreen />} />
+                    <Route path='/products2' element={<NewProducsScreen />} />
                   <Route path='/' element={<LandingScreen />} />
                   <Route path='/product/:id' element={<ProductScreen />} />
                   <Route path='/cart' element={<CartScreen />} />
