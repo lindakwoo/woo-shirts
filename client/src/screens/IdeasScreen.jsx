@@ -41,12 +41,12 @@ const IdeasScreen = () => {
     <>
       {!userName && (
         <>
-          <label>Please enter your name:</label>
+          <label>Please enter your first and last names:</label>
           <Input
             sx={{ border: "1px solid grey", ml: "5px", p: "5px" }}
             type='text'
             value={userText}
-            placeholder='first name'
+            placeholder='first and last name'
             onChange={(e) => {
               setUserText(e.target.value);
             }}
