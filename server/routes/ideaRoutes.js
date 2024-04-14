@@ -35,20 +35,13 @@ const getIdea = async (req, res) => {
 };
 
 const createIdeaReview = asyncHandler(async (req, res) => {
-	const { rating, comment, name, title } = req.body;
+	const { rating, comment, userName } = req.body;
 
-	const product = await Idea.findById(req.params.id);
+	const idea = await Idea.findById(req.params.id);
 
 	if (idea) {
-		// const alreadyReviewed = product.reviews.find((review) => review.user.toString() === user._id.toString());
-
-		// if (alreadyReviewed) {
-		// 	res.status(400).send("Product already reviewed");
-		// 	throw new Error('Product already reviewed.');
-		// }
-
 		const review = {
-			name: name,
+			name: userName,
 			rating: Number(rating),
 			comment,
 		};

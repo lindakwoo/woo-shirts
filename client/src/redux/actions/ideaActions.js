@@ -41,9 +41,9 @@ import { setIdea, setIdeas, setLoading, setError, setPagination, resetError } fr
       }
   };
   
-export const createIdeaReview = ({ideaId, comment, rating, name}) => async (dispatch, getState) => {
+export const createIdeaReview = (ideaId, comment, rating, userName) => async (dispatch, getState) => {
       try {
-          await axios.post(`/api/products/reviews/${ideaId}`, { comment, rating, name });
+          await axios.post(`/api/ideas/reviews/${ideaId}`, { comment, rating, userName });
         
       } catch (error) {
           dispatch(

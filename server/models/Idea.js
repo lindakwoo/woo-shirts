@@ -5,7 +5,6 @@ const reviewSchema = new mongoose.Schema(
 		name: { type: String, required: true },
 		rating: { type: Number, required: true },
 		comment: { type: String, required: true },
-		title: { type: String, required: true },
 	},
 	{ timestamps: true }
 );
@@ -31,15 +30,6 @@ const ideaSchema = new mongoose.Schema(
       type: [reviewSchema],
       required: true,
       default: [],
-    },
-    rating: {
-      type: Number,
-      required: true,
-      default: 5,
-    },
-    numberOfReviews: {
-      type: Number,
-      default: 0
     },
   },
   { timestamps: true }

@@ -95,31 +95,26 @@ var getIdea = function getIdea(req, res) {
 };
 
 var createIdeaReview = (0, _expressAsyncHandler["default"])(function _callee(req, res) {
-  var _req$body, rating, comment, name, title, product, review;
+  var _req$body, rating, comment, userName, idea, review;
 
   return regeneratorRuntime.async(function _callee$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _req$body = req.body, rating = _req$body.rating, comment = _req$body.comment, name = _req$body.name, title = _req$body.title;
+          _req$body = req.body, rating = _req$body.rating, comment = _req$body.comment, userName = _req$body.userName;
           _context3.next = 3;
           return regeneratorRuntime.awrap(_Idea["default"].findById(req.params.id));
 
         case 3:
-          product = _context3.sent;
+          idea = _context3.sent;
 
           if (!idea) {
             _context3.next = 12;
             break;
           }
 
-          // const alreadyReviewed = product.reviews.find((review) => review.user.toString() === user._id.toString());
-          // if (alreadyReviewed) {
-          // 	res.status(400).send("Product already reviewed");
-          // 	throw new Error('Product already reviewed.');
-          // }
           review = {
-            name: name,
+            name: userName,
             rating: Number(rating),
             comment: comment
           };

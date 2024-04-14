@@ -86,11 +86,7 @@ var getIdea = function getIdea(id) {
 
 exports.getIdea = getIdea;
 
-var createIdeaReview = function createIdeaReview(_ref3) {
-  var ideaId = _ref3.ideaId,
-      comment = _ref3.comment,
-      rating = _ref3.rating,
-      name = _ref3.name;
+var createIdeaReview = function createIdeaReview(ideaId, comment, rating, userName) {
   return function _callee3(dispatch, getState) {
     return regeneratorRuntime.async(function _callee3$(_context3) {
       while (1) {
@@ -98,10 +94,10 @@ var createIdeaReview = function createIdeaReview(_ref3) {
           case 0:
             _context3.prev = 0;
             _context3.next = 3;
-            return regeneratorRuntime.awrap(_axios["default"].post("/api/products/reviews/".concat(ideaId), {
+            return regeneratorRuntime.awrap(_axios["default"].post("/api/ideas/reviews/".concat(ideaId), {
               comment: comment,
               rating: rating,
-              name: name
+              userName: userName
             }));
 
           case 3:
