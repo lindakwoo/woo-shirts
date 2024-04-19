@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getIdea, createIdeaReview } from "../redux/actions/ideaActions";
 import { useToast } from "@chakra-ui/react";
+import ReviewerName from "../components/ReviewerName";
 
 const Input = styled("textArea")({});
 const Button = styled("button")({});
@@ -20,7 +21,7 @@ const IdeaScreen = () => {
   const [showReviews, setShowReviews] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [alreadyReviewed, setAlreadyReviewed] = useState(false);
-  const userName = JSON.parse(localStorage.getItem("userName"));
+  const [userName, setUserName] = useState(JSON.parse(localStorage.getItem("userName")) || null);
 
   useEffect(() => {
     dispatch(getIdea(id));
@@ -57,10 +58,10 @@ const IdeaScreen = () => {
 
   return (
     <>
+      <ReviewerName setUser={setUserName} />
       {idea && (
         <>
           <Stack sx={{ mx: "124px" }}>
-            <Box sx={{ fontSize: "32px", mb: "48px" }}>Reviewer name: {userName}</Box>
             <Stack justifyContent='center' direction='row' gap={20}>
               <Stack gap={5} alignItems='start'>
                 <Box sx={{ fontSize: "32px" }}>T-Shirt: {idea.name}</Box>
@@ -79,7 +80,7 @@ const IdeaScreen = () => {
                         <option value={1}>1</option>
                         <option value={2}>2</option>
                         <option value={3}>3</option>
-                        <option> value={4}4</option>
+                        <option value={4}>4</option>
                         <option value={5}>5</option>
                       </select>
                     </Stack>
@@ -88,7 +89,8 @@ const IdeaScreen = () => {
                       <Box fontWeight='bold'>Comment</Box>
 
                       <Input
-                        sx={{ height: "200px", padding: "0 5px 180px", whiteSpace: "normal" }}
+                        // sx={{ height: "100px", px: "5px", width: "400px" }}
+                        sx={{ height: "100px", px: "5px" }}
                         type='text'
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
@@ -100,7 +102,7 @@ const IdeaScreen = () => {
                     </Button>
                   </Stack>
                 )}{" "}
-                {alreadyReviewed && <Box>{userName}, you have already reviewed this idea.</Box>}
+                {alreadyReviewed && <Box>{userName}, you have added a review to this tshirt idea.</Box>}
               </Stack>
 
               <Stack>
@@ -133,7 +135,7 @@ const IdeaScreen = () => {
           </Stack>
 
           {showReviews && (
-            <Stack sx={{ backgroundColor: "beige" }}>
+            <Stack sx={{ backgroundColor: "beige", px: "200px" }}>
               <Box sx={{ fontSize: "24px" }}>Reviews</Box>
               <Table>
                 <thead>

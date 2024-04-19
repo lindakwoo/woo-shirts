@@ -217,7 +217,7 @@ const Header = () => {
           )}
         </Box>
       </Box>
-      {userInfo && !userInfo.active && showBanner && (
+      {/* {userInfo && !userInfo.active && showBanner && (
         <Box>
           <Alert sx={{ fontSize: "32px", backgroundColor: "yellow" }} status='warning'>
             <IoMdAlert />
@@ -227,7 +227,7 @@ const Header = () => {
             <CloseIcon cursor={"pointer"} onClick={() => setShowBanner(false)} />
           </Alert>
         </Box>
-      )}
+      )} */}
     </>
   );
 };

@@ -10,7 +10,7 @@ dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const stripeRoute = express.Router();
-const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://woo-shirts.onrender.com/`;
+const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://woo-shirts-1.onrender.com/`;
 
 const stripePayment = async (req, res) => {
   const data = req.body;

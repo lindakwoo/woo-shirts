@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 
 export const sendVerificationEmail = (token, email, name) => {
-	const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://woo-shirts.onrender.com/`;
+	const url = process.env.NODE_ENV=='development'? 'http://localhost:3000/':`https://woo-shirts-1.onrender.com/`;
 	const html = 
     `<html>
         <body>
